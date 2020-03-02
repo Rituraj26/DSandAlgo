@@ -1,5 +1,6 @@
 #include<iostream>
 #include<queue>
+#include<stack>
 using namespace std;
 
 template<class T>
@@ -15,20 +16,23 @@ class Tree {
     
 private:
     queue<Node<T>*> q;
+    stack<Node<T>*> st;
     Node<T> *root;
     
 public:
     
     Node<T> *CreateNode(T);
     void CreateTree();
-    void Preorder() {Preorder(root);}
     void Preorder(Node<T>*);
-    void Inorder() {Inorder(root);}
     void Inorder(Node<T>*);
-    void Postorder() {Postorder(root);}
     void Postorder(Node<T>*);
-    void Levelorder() {Levelorder(root);}
     void Levelorder(Node<T>*);
+    void RPrint();
+    
+    void IPreorder(Node<T>*);
+    void IInorder(Node<T>*);
+    void PPostorder(Node<T>*);
+    void IPrint();
     
 };
 
@@ -69,6 +73,8 @@ void Tree<T>::CreateTree() {
     }
 }
 
+// Recursive Traversals
+
 template<class T>
 void Tree<T>::Preorder(Node<T> *p) {
     if(p) {
@@ -96,18 +102,54 @@ void Tree<T>::Postorder(Node<T> *p) {
     }
 }
 
+// Iterative Traversals
+
+template<class T>
+void Tree<T>::IPreorder(Node<T> *t) {
+    while(!st.empty() || t != NULL) {
+        if(t != NULL) {
+            st.push(t);
+            cout<<t->data<<" ";
+            t = t->left;
+        } else {
+            t = st.top();
+            st.pop();
+            t = t->right;
+        }
+    }
+}
+
+// Display
+
+template<class T>
+void Tree<T>::RPrint() {
+    Preorder(root);
+    cout<<endl;
+    Inorder(root);
+    cout<<endl;
+    Postorder(root);
+    cout<<endl;
+//    Levelorder(root);
+    cout<<endl;
+}
+
+template<class T>
+void Tree<T>::IPrint() {
+    Preorder(root);
+    cout<<endl;
+    Inorder(root);
+    cout<<endl;
+    Postorder(root);
+    cout<<endl;
+//    Levelorder(root);
+    cout<<endl;
+}
+
 int main() {
     
     Tree<char> obj;
     obj.CreateTree();
-    obj.Preorder();
-    cout<<endl;
-    obj.Inorder();
-    cout<<endl;
-    obj.Postorder();
-    cout<<endl;
-//    obj.Levelorder();
-    cout<<endl;
+    obj.RPrint();
     
     return 0;
 }
